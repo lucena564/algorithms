@@ -1,0 +1,138 @@
+Para entender melhor esse método de travessia por recursão vamos ter a explicação + debug:
+
+Método pré-ordem:
+
+Debug:
+
+Colocar 3 break points: 
+    1° - Onde chamamos: arvore.pre_ordem(arvore.raiz)
+    2° - Dentro da classe ArvoreBinariaBusca -> def pre_ordem(self, no): -> self.pre_ordem(no.esquerda)
+    3° - Dentro da classe ArvoreBinariaBusca -> def pre_ordem(self, no): -> self.pre_ordem(no.direita)
+
+Vai no primeiro break point e onde tem a célula clica com o botão direito no cando esquerdo da célula (onde tem o simbolo do "play",
+tem uma setinha ao lado do símbolo) e coloca para executar utilizando o debug. 
+
+1° passo - Entrar na chamada da função e tentar enxergar o passo a passo conforme a explicação.
+
+Explicação:
+
+Esta função faz o seguinte:
+
+Temos a seguinte configuração da árvore:
+
+arvore = ArvoreBinariaBusca()
+arvore.inserir(53)
+arvore.inserir(30)
+arvore.inserir(14)
+arvore.inserir(39)
+arvore.inserir(9)
+arvore.inserir(23)
+arvore.inserir(34)
+arvore.inserir(49)
+arvore.inserir(72)
+arvore.inserir(61)
+arvore.inserir(84)
+arvore.inserir(79)
+
+(Verificar a imagem gerada no arvore.tree_show() para essa configuração. A explicação se baseia nela)
+
+A função pré ordem faz o seguinte:
+
+class ArvoreBinariaBusca:
+    .
+    .
+    .
+
+  def pre_ordem(self, no):
+    if no != None:
+      print(no.valor)
+      self.pre_ordem(no.esquerda)
+      self.pre_ordem(no.direita)
+
+Faremos a chamada com arvore.raiz que vale 53 (pois é o primeiro valor colocado quando instanciamos a instância da árvore binária e a chamei):
+
+Então começamos com o nó cujo valor é 53:
+
+def pre_ordem(self, no[53]):
+    
+    if no != None:------------------------- # O nó que guarda o valor 53 é diferente de None, ele está apontando para um endereço na memória. 
+
+        print(no.valor)---------------------- # print(53)
+
+        self.pre_ordem(no.esquerda) --------- # Nesse ponto aqui eu vou chamar a função pré ordem novamente. Então o que vai acontecer??
+                                              # ********************   MUITA ATENÇÃO NESSA EXPLICAÇÃO DESSA PARTE   ********************
+                                              # Eu vou chamar a função "def pre_ordem(self, no.esquerda[53]):"
+                                              # Qual é o nó que está a ESQUERDA do nó 53??? É o nó [30]
+                                              # Portanto eu vou chamar a função da seguinte forma: "def pre_ordem(self, no[30]):"
+        
+        # Perceba que eu não terminei de executar tudo que ta dentro do "if no != None:" para o nó [53], então ele ficou empilhado.
+
+        # Então vamos chamar      "def pre_ordem(self, no[30]):"
+
+        def pre_ordem(self, no[30]):
+            if no != None:----------------- # O nó [30] é diferente de None???? Sim, ele é, pois está apontando para um endereço na memória.
+                print(no.valor) ----------- # print(30)
+                self.pre_ordem(no.esquerda) # Vou chamar a função pre_ordem(no.esquerda[30] que será o nó[14])
+
+                def pre_ordem(self, no[14]):
+                    if no != None:--------------------------- # É diferente de None pois aponta para um endereço na memória. 
+                        print(no.valor) --------------------- # print(14)
+                        self.pre_ordem(no.esquerda) --------- # pre_ordem(no.esquerda[14] que será o nó [9])
+                                                              # Perceba que eu ainda não terminei de completar a função pre_ordem(no[14]), mas
+                                                              # terei que parar momentaneamente pois chamei a função pre_ordem novamente, mas passando
+                                                              # o nó que se encontra à esquerda de [14], que é o nó [9].
+
+                            
+                        def pre_ordem(self, no[9]):
+                            if no != None: ------------------ # Nó [9] é diferente de None, sim, ele é, pois aponta para um endereço na memória
+                                print(no.valor) ------------- # print(9)
+                                self.pre_ordem(no.esquerda) - # Vou chamar a função novamente passando o nó da esquerda.
+                                                              # Perceba que agora será um nó [None] pois não há nó à esquerda do nó [9]
+
+                                def pre_ordem(self, no[None]):
+                                    if no != None: ---------- # no[None] != None ??? NÃO! Então nenhum desses passos dentro do if serão executados.
+                                                              # Portanto vamos executar o próximo passo. 
+                                        print(no.valor)               # NÃO ENTRARÁ AQUI
+                                        self.pre_ordem(no.esquerda)   # NÃO ENTRARÁ AQUI
+                                        self.pre_ordem(no.direita)    # NÃO ENTRARÁ AQUI
+
+
+                                self.pre_ordem(no.direita)     # AGOOOOORA SIM VAMOS EXECUTAR ESSA CHAMADA DE FUNÇÃO, PORÉM
+                                                               # PASSANDO O NÓ DA DIREITA DE QUEM??? DO NÓ 9.
+
+                                def pre_ordem(self, no.DIREITA[9]):      
+                                    if no != None:                   # PERCEBA QUE O NO.DIREITA[9] APONTA PARA NONE.
+                                        print(no.valor)              # NÃO ENTRARÁ AQUI
+                                        self.pre_ordem(no.esquerda)  # NÃO ENTRARÁ AQUI
+                                        self.pre_ordem(no.direita)   # NÃO ENTRARÁ AQUI
+
+
+
+                        self.pre_ordem(no.direita)             # AGOOOOORA SIM VAMOS EXECUTAR ESSA CHAMADA DE FUNÇÃO, PORÉM
+                                                               # PASSANDO O NÓ DA DIREITA DE QUEM??? DO NÓ [14].
+
+                        def pre_ordem(self, no[23]):
+                            if no != None:            # SIM, É DIFERENTE DE NONE, O NÓ [23] APONTA PARA UM ENDEREÇO NA MEMÓRIA
+                                print(no.valor)       # print(23)
+                                self.pre_ordem(no.esquerda) 
+                                self.pre_ordem(no.direita)
+                                                                # Agora no nó [23] vai chamar a função para percorrer pre_ordem pela esquerda
+                                                                # e vai encontrar um None, depois vai percorrer o nó 23 pela direita, e vai
+                                                                # encontrar um none.
+
+
+
+                self.pre_ordem(no.direita)           # AGOORA SIM, IREMOS CHAMAR A FUNÇÃO pre_ordem passando o nó da direita de qual nó?? Do nó [30]
+                                                     # Agora começará tudo dnv, mas percorrendo o lado direito, empilhando e desempilhando. E sempre printando.
+
+
+
+      self.pre_ordem(no.direita)
+
+
+* A travessia 'EM ORDEM' e 'PÓS ORDEM' seguirá o mesmo princípio recursivo, porém alterando a ordem do comando do print, seguindo uma lógica parecida
+obedecendo a ordem correta da coisa.
+
+EM ORDEM:     Esquerda -> Raiz -> Direita
+
+PÓS ORDEM:    Esquerda -> Direita -> Raiz  

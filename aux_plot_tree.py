@@ -22,7 +22,7 @@ def image_tree(dot_file, output_file):
 
 
 # Crie a função que irá excluir o arquivo dot
-def delete_file_dot(arquivo):
+def delete_file(arquivo):
     try:
         os.remove(arquivo)
         # print(f"Arquivo {arquivo} excluído com sucesso!")
