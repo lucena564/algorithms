@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1687137100 source:c:\users\antonio lucena\desktop\projetos c++\questao1_pilha\main.cpp
+	<iostream>
+	<map>
+	<string>
+
