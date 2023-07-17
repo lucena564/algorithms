@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1689553340 source:c:\users\formatmicro\desktop\lista2\lista2\main.cpp
+	<iostream>
+	<map>
+	<string>
+
